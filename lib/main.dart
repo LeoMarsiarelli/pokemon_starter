@@ -97,22 +97,33 @@ class _PokemonStarterScreenState extends State<PokemonStarterScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          PokeHeader("Escolha seu Pokemon inicial"),
-          PokemonCard(pokemon: pokemonSelected),
-          PokemonOptionList(
-            options: starters,
-            pokemonSelected: pokemonSelected,
-            onSelected: (pokemon) {
-              setState(() {
-                pokemonSelected = pokemon;
-              });
-            },
-          ),
-        ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: isPortrait
+              ? PokemonStarterScreenPortrait(
+                  pokemonSelected: pokemonSelected,
+                  options: starters,
+                  onSelected: (pokemon) {
+                    setState(() {
+                      pokemonSelected = pokemon;
+                    });
+                  },
+                )
+              : PokemonStarterScreenLandscape(
+                  pokemonSelected: pokemonSelected,
+                  options: starters,
+                  onSelected: (pokemon) {
+                    setState(() {
+                      pokemonSelected = pokemon;
+                    });
+                  },
+                ),
+        ),
       ),
     );
   }
